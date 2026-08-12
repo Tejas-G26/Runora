@@ -620,25 +620,6 @@
 
                 <!-- ===== SETTINGS ===== -->
                 <div id="page-settings" class="page-section">
-                    <p class="section-sub">Configure your business settings.</p>
-                    <div class="settings-card card" style="margin-top:16px;">
-                        <h3 style="font-weight:600;margin-bottom:12px;">Supabase Connection</h3>
-                        <p style="color:var(--gray-500);font-size:0.9rem;">Your credentials are already pre‑configured. You can update them here if needed.</p>
-                        <div style="margin-top:16px;">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Supabase URL</label>
-                                    <input type="text" id="settings-supabase-url" placeholder="https://xxx.supabase.co" />
-                                </div>
-                                <div class="form-group">
-                                    <label>Supabase Anon Key</label>
-                                    <input type="text" id="settings-supabase-key" placeholder="eyJ..." />
-                                </div>
-                            </div>
-                            <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                                <button class="btn btn-primary" onclick="saveSettings()"><i class="fas fa-save"></i> Update</button>
-                            </div>
-                        </div>
                         <hr style="margin:20px 0;border-color:var(--gray-100);" />
                         <h3 style="font-weight:600;margin-bottom:8px;">Business Info</h3>
                         <div class="form-row">
@@ -2278,27 +2259,6 @@
             document.getElementById('settings-supabase-key').value = SUPABASE_ANON_KEY;
             document.getElementById('settings-business-name').value = currentBusiness?.name || '';
             document.getElementById('settings-business-type').value = currentBusiness?.type || '';
-        }
-
-        function saveSettings() {
-            const url = document.getElementById('settings-supabase-url').value.trim();
-            const key = document.getElementById('settings-supabase-key').value.trim();
-            if (url && key) {
-                // Override the constants (only in memory, not persistent across page reload)
-                // For production, you'd want to persist these in localStorage
-                localStorage.setItem('sb_url_override', url);
-                localStorage.setItem('sb_key_override', key);
-                // Re-init client with new credentials
-                const newClient = supabase.createClient(url, key);
-                supabaseClient = newClient;
-                updateConnectionStatus(true);
-                showToast('✅ Supabase credentials updated!', 'success');
-                if (currentUser) {
-                    loadBusiness();
-                }
-            } else {
-                showToast('⚠️ Please enter both URL and Anon Key', 'warning');
-            }
         }
 
         async function updateBusinessInfo() {
