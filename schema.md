@@ -96,3 +96,76 @@ CREATE POLICY "Users can update own business data" ON products FOR UPDATE USING 
 CREATE POLICY "Users can delete own business data" ON products FOR DELETE USING (business_id IN (SELECT id FROM businesses WHERE owner_id = auth.uid()));
 
 -- Repeat the above 4 policies for customers, orders, expenses, payments, invoices (replace table name)
+
+##### Whatsapp schemas
+
+-- ============================================================
+-- 1. FIRST: Create the helper function
+-- ============================================================
+CREATE OR REPLACE FUNCTION get_my_business_id()
+RETURNS UUID LANGUAGE sql STABLE AS $$
+  SELECT id FROM businesses WHERE owner_id = auth.uid() LIMIT 1;
+$$;
+
+-- ============================================================
+-- 2. Create WhatsApp tables
+-- ============================================================
+
+-- WhatsApp Contacts
+CREATE TABLE IF NOT EXISTS wa_contacts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  business_id UUID REFERENCES businesses(id) ON DELETE CASCADE,
+  phone TEXT NOT NULL,
+  name TEXT,
+  last_message TEXT,
+  last_message_time TIMESTAMP WITH TIME ZONE,
+  unread_count INTEGER DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- WhatsApp Messages
+CREATE TABLE IF NOT EXISTS wa_messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  business_id UUID REFERENCES businesses(id) ON DELETE CASCADE,
+  contact_id UUID REFERENCES wa_contacts(id) ON DELETE CASCADE,
+  sender_name TEXT,
+  body TEXT NOT NULL,
+  direction TEXT CHECK (direction IN ('incoming', 'outgoing')),
+  status TEXT DEFAULT 'sent',
+  wa_message_id TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- ============================================================
+-- 3. Enable RLS
+-- ============================================================
+ALTER TABLE wa_contacts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE wa_messages ENABLE ROW LEVEL SECURITY;
+
+-- ============================================================
+-- 4. Create RLS Policies (now function exists)
+-- ============================================================
+CREATE POLICY "Users can view own wa_contacts" ON wa_contacts 
+  FOR SELECT USING (business_id = get_my_business_id());
+
+CREATE POLICY "Users can insert own wa_contacts" ON wa_contacts 
+  FOR INSERT WITH CHECK (business_id = get_my_business_id());
+
+CREATE POLICY "Users can update own wa_contacts" ON wa_contacts 
+  FOR UPDATE USING (business_id = get_my_business_id());
+
+CREATE POLICY "Users can delete own wa_contacts" ON wa_contacts 
+  FOR DELETE USING (business_id = get_my_business_id());
+
+CREATE POLICY "Users can view own wa_messages" ON wa_messages 
+  FOR SELECT USING (business_id = get_my_business_id());
+
+CREATE POLICY "Users can insert own wa_messages" ON wa_messages 
+  FOR INSERT WITH CHECK (business_id = get_my_business_id());
+
+CREATE POLICY "Users can update own wa_messages" ON wa_messages 
+  FOR UPDATE USING (business_id = get_my_business_id());
+
+CREATE POLICY "Users can delete own wa_messages" ON wa_messages 
+  FOR DELETE USING (business_id = get_my_business_id());
