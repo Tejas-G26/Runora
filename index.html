@@ -1358,7 +1358,6 @@
                         </div>
                         <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
                           <button class="btn btn-primary btn-sm" onclick="viewInvoice('${inv.id}')"><i class="fas fa-eye"></i> View</button>
-                          <button class="btn btn-outline btn-sm" onclick="printInvoice('${inv.id}')"><i class="fas fa-print"></i> Print</button>
                         </div>
                       </div>`;
                 });
@@ -2223,7 +2222,7 @@
             const customer = order ? order.customer_name : '—';
             const items = order ? order.items || [] : [];
             let itemsHtml = items.map(i =>
-                `<tr><td>${i.product_name}</td><td>${i.quantity || 0}</td><td>₹${i.price || 0}</td><td>₹${((i.quantity || 0) * (i.price || 0)).toLocaleString()}</td></tr>`
+                `<tr><td style="text-align:left;">${i.product_name}</td><td style="text-align:center;">${i.quantity || 0}</td><td style="text-align:right;">₹${i.price || 0}</td><td style="text-align:right;">₹${((i.quantity || 0) * (i.price || 0)).toLocaleString()}</td></tr>`
             ).join('');
             const businessName = currentBusiness?.name || 'My Business';
             openModal(`Invoice ${inv.invoice_number}`, `
@@ -2233,10 +2232,10 @@
                   <p style="font-size:0.85rem;color:var(--gray-500);">Date: ${inv.created_at ? new Date(inv.created_at).toLocaleDateString() : new Date().toLocaleDateString()}</p>
                   <table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-top:12px;">
                     <thead><tr style="border-bottom:1px solid var(--gray-200);">
-                      <th style="text-align:left;padding:6px 4px;">Product</th>
-                      <th style="text-align:center;padding:6px 4px;">Qty</th>
-                      <th style="text-align:right;padding:6px 4px;">Price</th>
-                      <th style="text-align:right;padding:6px 4px;">Total</th>
+                      <th style="text-align:left;">Product</th>
+                      <th style="text-align:center;">Qty</th>
+                      <th style="text-align:right;">Price</th>
+                      <th style="text-align:right;">Total</th>
                     </tr></thead>
                     <tbody>${itemsHtml || '<tr><td colspan="4" style="text-align:center;color:var(--gray-400);">No items</td></tr>'}</tbody>
                   </table>
