@@ -1981,11 +1981,11 @@
                     payment_status: 'Pending',
                     items: [{ product_name: product.name, quantity: qty, price: product.price || 0 }],
                 };
-                await addOrder(order);
+                const createdOrder = await addOrder(order);
                 await updateProduct(product.id, { stock: Math.max(0, (product.stock || 0) - qty) });
                 const invoices = await getInvoices();
                 await addInvoice({
-                    order_id: order.id,
+                    order_id: createdOrder.id,
                     invoice_number: `INV-${String(invoices.length + 1).padStart(3, '0')}`,
                     subtotal: total,
                     tax: 0,
@@ -1996,7 +1996,7 @@
                     customer_name: cust.name,
                     amount: total,
                     status: 'Pending',
-                    order_id: order.id
+                    order_id: createdOrder.id
                 });
                 await updateCustomer(cust.id, {
                     total_orders: (cust.total_orders || 0) + 1,
