@@ -628,6 +628,10 @@
                                 <input type="text" id="settings-business-name" placeholder="My Business" />
                             </div>
                             <div class="form-group">
+                                <label>Contact Number</label>
+                                <input type="text" id="settings-contact-number" placeholder="Contact Number (ex. +91 89834*****)" />
+                            </div>
+                            <div class="form-group">
                                 <label>Business Type</label>
                                 <input type="text" id="settings-business-type" placeholder="Retail" />
                             </div>
@@ -790,6 +794,7 @@
                 }
                 // Update settings page
                 document.getElementById('settings-business-name').value = currentBusiness?.name || '';
+                document.getElementById('settings-contact-number').value = currentBusiness?.wa_phone_number_id || '';
                 document.getElementById('settings-business-type').value = currentBusiness?.type || '';
             } catch (e) {
                 console.error('Load business error:', e);
@@ -2269,13 +2274,14 @@
 
         async function updateBusinessInfo() {
             const name = document.getElementById('settings-business-name').value.trim();
+            const contact = document.getElementById('settings-contact-number').value.trim();
             const type = document.getElementById('settings-business-type').value.trim();
             if (!name) { showToast('Please enter a business name', 'warning'); return; }
             try {
                 const client = getClient();
                 const { error } = await client
                     .from('businesses')
-                    .update({ name, type: type || 'Retail' })
+                    .update({ name, type: type || 'Retail',wa_phone_number_id : contact })
                     .eq('id', currentBusiness.id);
                 if (error) throw error;
                 currentBusiness.name = name;
