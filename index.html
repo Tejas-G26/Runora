@@ -282,8 +282,8 @@
         .settings-card .env-hint { background: var(--gray-50); border-radius: var(--radius-sm); padding: 14px 18px; border: 1px solid var(--gray-200); font-size: 0.85rem; color: var(--gray-600); margin-top: 12px; }
         .settings-card .env-hint code { background: var(--gray-200); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; color: var(--dark); }
         .settings-card .status-badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-        .status-connected { background: #DCF8C6; color: #1B7A3D;padding:8px;border-radius: 20px; }
-        .status-disconnected { background: #FEE2E2; color: #991B1B;padding:8px;border-radius: 20px; }
+        .status-connected { color: #1B7A3D;padding:8px;border-radius: 20px; }
+        .status-disconnected { color: #991B1B;padding:8px;border-radius: 20px; }
 
         /* ===== Page sections ===== */
         .page-section { display: none; }
@@ -1289,10 +1289,10 @@
             if (!el) return;
             if (connected) {
                 el.className = 'status-badge status-connected';
-                el.innerHTML = '<i class="fas fa-circle" style="font-size:0.6rem;"></i> Connected';
+                el.innerHTML = '<i class="fas fa-link" style="font-size:1rem;"></i> Connected';
             } else {
                 el.className = 'status-badge status-disconnected';
-                el.innerHTML = '<i class="fas fa-circle" style="font-size:0.6rem;"></i> Disconnected';
+                el.innerHTML = '<i class="fas fa-unlink" style="font-size:1rem;"></i> Disconnected';
             }
         }
 
