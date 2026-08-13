@@ -324,6 +324,599 @@
             .btn { padding: 8px 14px; font-size: 0.8rem; }
             .modal-overlay .modal { padding: 20px 16px; }
         }
+        /* =========================================================
+   MODERN INVOICE
+   ========================================================= */
+
+.invoice-modal {
+    width: 100%;
+}
+
+.invoice-paper {
+    width: 100%;
+    max-width: 820px;
+    margin: 0 auto;
+    background: #fff;
+    color: var(--dark);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-hover);
+    font-family: var(--font);
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+.invoice-top {
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.invoice-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.invoice-brand-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    background: var(--primary-bg);
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.invoice-brand h2 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--dark);
+}
+
+.invoice-brand p {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    margin-top: 1px;
+}
+
+.invoice-heading {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.invoice-heading span {
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--primary-dark);
+}
+
+.invoice-heading strong {
+    font-size: 0.82rem;
+    color: var(--gray-500);
+}
+
+.invoice-line {
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        var(--primary),
+        var(--primary-dark)
+    );
+}
+
+
+/* =========================
+   INFO
+   ========================= */
+
+.invoice-info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--gray-200);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.invoice-info-box {
+    background: #fff;
+    padding: 18px 20px;
+    min-height: 86px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+.invoice-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--gray-400);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+}
+
+.invoice-label i {
+    color: var(--primary-dark);
+}
+
+.invoice-info-box > strong {
+    font-size: 0.85rem;
+    color: var(--dark);
+}
+
+.invoice-info-box small {
+    color: var(--gray-400);
+    font-size: 0.7rem;
+}
+
+
+/* =========================
+   STATUS
+   ========================= */
+
+.invoice-status {
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.invoice-status-paid {
+    background: #DCF8C6;
+    color: #1B7A3D;
+}
+
+.invoice-status-pending {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.invoice-status-other {
+    background: var(--gray-100);
+    color: var(--gray-600);
+}
+
+
+/* =========================
+   ITEMS
+   ========================= */
+
+.invoice-items-section {
+    padding: 24px 28px 10px;
+}
+
+.invoice-section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.invoice-section-title h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.invoice-section-title span {
+    font-size: 0.72rem;
+    color: var(--gray-400);
+}
+
+.invoice-table-wrap {
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.invoice-table thead {
+    background: var(--gray-50);
+}
+
+.invoice-table th {
+    padding: 11px 12px;
+    color: var(--gray-500);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.invoice-table th:nth-child(1) {
+    width: 45px;
+    text-align: center;
+}
+
+.invoice-table th:nth-child(2) {
+    text-align: left;
+}
+
+.invoice-table th:nth-child(3) {
+    width: 70px;
+    text-align: center;
+}
+
+.invoice-table th:nth-child(4),
+.invoice-table th:nth-child(5) {
+    width: 110px;
+    text-align: right;
+}
+
+.invoice-table td {
+    padding: 13px 12px;
+    border-bottom: 1px solid var(--gray-100);
+    font-size: 0.82rem;
+}
+
+.invoice-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.invoice-table tbody tr:hover td {
+    background: var(--gray-50);
+}
+
+.invoice-item-number {
+    text-align: center;
+    color: var(--gray-400);
+}
+
+.invoice-product {
+    color: var(--dark);
+}
+
+.invoice-product strong {
+    font-weight: 600;
+}
+
+.invoice-qty {
+    text-align: center;
+    color: var(--gray-600);
+}
+
+.invoice-price,
+.invoice-amount {
+    text-align: right;
+    color: var(--gray-700);
+}
+
+.invoice-amount {
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.invoice-empty-items {
+    text-align: center;
+    padding: 30px !important;
+    color: var(--gray-400);
+}
+
+.invoice-empty-items i {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+
+/* =========================
+   BOTTOM
+   ========================= */
+
+.invoice-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 30px;
+    padding: 22px 28px 26px;
+}
+
+.invoice-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 330px;
+}
+
+.invoice-note-icon {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: var(--primary-bg);
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.invoice-note strong {
+    font-size: 0.78rem;
+    color: var(--dark);
+}
+
+.invoice-note p {
+    margin-top: 2px;
+    color: var(--gray-400);
+    font-size: 0.7rem;
+}
+
+.invoice-summary {
+    width: 280px;
+}
+
+.invoice-summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    color: var(--gray-500);
+    font-size: 0.78rem;
+}
+
+.invoice-summary-row strong {
+    color: var(--dark);
+    font-weight: 600;
+}
+
+.invoice-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid var(--dark);
+    margin-top: 8px;
+    padding-top: 12px;
+    font-size: 0.95rem;
+}
+
+.invoice-total-row strong {
+    font-size: 1.25rem;
+    color: var(--primary-dark);
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.invoice-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 28px;
+    background: var(--gray-50);
+    border-top: 1px solid var(--gray-200);
+    color: var(--gray-400);
+    font-size: 0.65rem;
+}
+
+.invoice-footer span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.invoice-footer i {
+    color: var(--primary-dark);
+}
+
+
+/* =========================
+   ACTIONS
+   ========================= */
+
+.invoice-modal-actions {
+    max-width: 820px;
+    margin: 14px auto 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 768px) {
+
+    .invoice-top {
+        padding: 22px 20px;
+    }
+
+    .invoice-info-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .invoice-items-section {
+        padding: 20px 16px 8px;
+    }
+
+    .invoice-table-wrap {
+        overflow-x: auto;
+    }
+
+    .invoice-table {
+        min-width: 620px;
+    }
+
+    .invoice-bottom {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 18px 16px;
+    }
+
+    .invoice-note {
+        max-width: none;
+    }
+
+    .invoice-summary {
+        width: 100%;
+    }
+
+    .invoice-footer {
+        flex-direction: column;
+        padding: 12px 16px;
+    }
+
+    .invoice-modal-actions {
+        justify-content: stretch;
+    }
+
+    .invoice-modal-actions .btn {
+        flex: 1;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .invoice-top {
+        align-items: flex-start;
+    }
+
+    .invoice-heading span {
+        font-size: 1.3rem;
+    }
+
+    .invoice-brand h2 {
+        font-size: 1rem;
+    }
+
+    .invoice-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .invoice-info-box {
+        min-height: 70px;
+    }
+}
+
+
+/* =========================================================
+   PRINT — A4 INVOICE
+   ========================================================= */
+
+@media print {
+
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+
+    html,
+    body {
+        width: 100%;
+        background: #fff !important;
+    }
+
+    body * {
+        visibility: hidden !important;
+    }
+
+    .invoice-paper,
+    .invoice-paper * {
+        visibility: visible !important;
+    }
+
+    .invoice-paper {
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        width: 100%;
+        max-width: none;
+
+        margin: 0;
+        padding: 0;
+
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+
+        background: #fff;
+    }
+
+    .invoice-modal-actions,
+    .modal-header,
+    .no-print {
+        display: none !important;
+    }
+
+    .invoice-table tbody tr:hover td {
+        background: transparent !important;
+    }
+
+    .invoice-line {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .invoice-brand-icon,
+    .invoice-status,
+    .invoice-note-icon,
+    .invoice-footer,
+    .invoice-table thead {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .invoice-table tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .invoice-items-section {
+        break-inside: auto;
+    }
+
+    .invoice-bottom {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .invoice-footer {
+        margin-top: 10px;
+    }
+}
+
+/* Invoice modal needs a wider container */
+.modal-overlay .modal:has(.invoice-modal) {
+    max-width: 920px;
+    width: 95vw;
+    padding: 24px;
+}
+
+@media (max-width: 768px) {
+    .modal-overlay .modal:has(.invoice-modal) {
+        width: 98vw;
+        padding: 12px;
+    }
+}
     </style>
 </head>
 <body>
@@ -1232,6 +1825,129 @@
             }
         }
 
+        async function renderInvoices() {
+    const container = document.getElementById('invoices-container');
+
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="empty-state">
+            <i class="fas fa-spinner fa-spin"></i>
+            <h4>Loading invoices...</h4>
+        </div>
+    `;
+
+    try {
+        const invoices = await getInvoices();
+
+        if (!invoices || invoices.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-file-invoice"></i>
+                    <h4>No invoices yet</h4>
+                    <p>Invoices will appear here when you create orders.</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = `
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Invoice</th>
+                            <th>Order</th>
+                            <th>Subtotal</th>
+                            <th>Tax</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        invoices.forEach(invoice => {
+            const statusBadge =
+                invoice.status === 'Paid'
+                    ? 'badge-green'
+                    : invoice.status === 'Cancelled'
+                        ? 'badge-red'
+                        : 'badge-yellow';
+
+            html += `
+                <tr>
+                    <td>
+                        <strong>${invoice.invoice_number || '—'}</strong>
+                    </td>
+
+                    <td>
+                        #${(invoice.order_id || '').slice(-4) || '—'}
+                    </td>
+
+                    <td>
+                        ₹${Number(invoice.subtotal || 0).toLocaleString('en-IN')}
+                    </td>
+
+                    <td>
+                        ₹${Number(invoice.tax || 0).toLocaleString('en-IN')}
+                    </td>
+
+                    <td>
+                        <strong>
+                            ₹${Number(invoice.total || 0).toLocaleString('en-IN')}
+                        </strong>
+                    </td>
+
+                    <td>
+                        <span class="badge ${statusBadge}">
+                            ${invoice.status || 'Pending'}
+                        </span>
+                    </td>
+
+                    <td>
+                        ${
+                            invoice.created_at
+                                ? new Date(invoice.created_at).toLocaleDateString('en-IN')
+                                : '—'
+                        }
+                    </td>
+
+                    <td>
+                        <button
+                            class="btn btn-primary btn-xs"
+                            onclick="viewInvoice('${invoice.id}')">
+                            View
+                        </button>
+
+                    </td>
+                </tr>
+            `;
+        });
+
+        html += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+        container.innerHTML = html;
+
+    } catch (e) {
+        console.error('Invoices error:', e);
+
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h4>Error loading invoices</h4>
+                <p>${e.message}</p>
+            </div>
+        `;
+    }
+}
+
         async function renderCustomers() {
             const container = document.getElementById('customers-table-container');
             container.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h4>Loading Customers...</h4></div>'
@@ -1326,47 +2042,337 @@
             }
         }
 
-        async function renderInvoices() {
-            const container = document.getElementById('invoices-container');
-            container.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h4>Loading Invoices...</h4></div>'
-            if (!container) return;
-            try {
-                const invoices = await getInvoices();
-                const orders = await getOrders();
-                if (invoices.length === 0) {
-                    container.innerHTML =
-                        `<div class="empty-state"><i class="fas fa-file-invoice"></i><h4>No invoices</h4><p>Invoices are generated from orders.</p></div>`;
-                    return;
-                }
-                let html = '';
-                invoices.forEach(inv => {
-                    const order = orders.find(o => o.id === inv.order_id);
-                    const customer = order ? order.customer_name : '—';
-                    const badge = inv.status === 'Paid' ? 'badge-green' :
-                        inv.status === 'Pending' ? 'badge-yellow' : 'badge-blue';
-                    html += `<div class="card" style="margin-bottom:16px;">
-                        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-                          <div>
-                            <strong style="font-size:1.1rem;">${inv.invoice_number}</strong>
-                            <span class="badge ${badge}" style="margin-left:10px;">${inv.status || 'Pending'}</span>
-                            <p style="font-size:0.85rem;color:var(--gray-500);">Customer: ${customer}</p>
-                          </div>
-                          <div style="text-align:right;">
-                            <div style="font-size:1.3rem;font-weight:700;">₹${(inv.total || 0).toLocaleString()}</div>
-                            <div style="font-size:0.75rem;color:var(--gray-400);">${inv.created_at ? new Date(inv.created_at).toLocaleDateString() : '—'}</div>
-                          </div>
-                        </div>
-                        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
-                          <button class="btn btn-primary btn-sm" onclick="viewInvoice('${inv.id}')"><i class="fas fa-eye"></i> View</button>
-                        </div>
-                      </div>`;
-                });
-                container.innerHTML = html;
-            } catch (e) {
-                container.innerHTML =
-                    `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h4>Error loading invoices</h4><p>${e.message}</p></div>`;
-            }
+      // =============================================================
+// INVOICE ACTIONS
+// =============================================================
+
+async function viewInvoice(id) {
+    try {
+        const invoices = await getInvoices();
+        const inv = invoices.find(i => i.id === id);
+
+        if (!inv) {
+            showToast('Invoice not found', 'error');
+            return;
         }
+
+        const orders = await getOrders();
+        const order = orders.find(o => o.id === inv.order_id);
+
+        if (!order) {
+            showToast('Order linked to this invoice was not found', 'error');
+            return;
+        }
+
+        const customer = order.customer_name || 'Walk-in Customer';
+        const items = Array.isArray(order.items) ? order.items : [];
+        const businessName = currentBusiness?.name || 'My Business';
+
+        const invoiceDate = inv.created_at
+            ? new Date(inv.created_at).toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            })
+            : new Date().toLocaleDateString('en-IN');
+
+        const orderId = order.id
+            ? order.id.slice(-4).toUpperCase()     
+            : '—';       
+
+        const status = inv.status || 'Pending';
+
+        const statusClass =
+            status === 'Paid'
+                ? 'invoice-status-paid'
+                : status === 'Pending'
+                    ? 'invoice-status-pending'
+                    : 'invoice-status-other';
+
+        const itemsHtml = items.length
+            ? items.map((item, index) => {
+                const qty = Number(item.quantity || 0);
+                const price = Number(item.price || 0);
+                const total = qty * price;
+
+                return `
+                    <tr>
+                        <td class="invoice-item-number">${index + 1}</td>
+
+                        <td class="invoice-product">
+                            <strong>${escapeHtml(item.product_name || 'Product')}</strong>
+                        </td>
+
+                        <td class="invoice-qty">
+                            ${qty}
+                        </td>
+
+                        <td class="invoice-price">
+                            ₹${price.toLocaleString('en-IN')}
+                        </td>
+
+                        <td class="invoice-amount">
+                            ₹${total.toLocaleString('en-IN')}
+                        </td>
+                    </tr>
+                `;
+            }).join('')
+            : `
+                <tr>
+                    <td colspan="5" class="invoice-empty-items">
+                        <i class="fas fa-box-open"></i>
+                        <span>No items found</span>
+                    </td>
+                </tr>
+            `;
+
+        openModal(`Invoice ${inv.invoice_number}`, `
+            <div class="invoice-modal">
+
+                <!-- Invoice Paper -->
+                <div class="invoice-paper" id="print-invoice-${inv.id}">
+
+                    <!-- Top Header -->
+                    <div class="invoice-top">
+
+                        <div class="invoice-brand">
+                            <div class="invoice-brand-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+
+                            <div>
+                                <h2>${escapeHtml(businessName)}</h2>
+                                <p>Business Invoice</p>
+                            </div>
+                        </div>
+
+                        <div class="invoice-heading">
+                            <span>INVOICE</span>
+                            <strong>${escapeHtml(inv.invoice_number || 'INV-000')}</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="invoice-line"></div>
+
+                    <!-- Invoice Information -->
+                    <div class="invoice-info-grid">
+
+                        <div class="invoice-info-box">
+                            <span class="invoice-label">
+                                <i class="fas fa-user"></i>
+                                BILL TO
+                            </span>
+
+                            <strong>${escapeHtml(customer)}</strong>
+
+                            ${order.customer_id ? `
+                                <small>Customer</small>
+                            ` : ''}
+                        </div>
+
+                        <div class="invoice-info-box">
+                            <span class="invoice-label">
+                                <i class="fas fa-calendar"></i>
+                                INVOICE DATE
+                            </span>
+
+                            <strong>${invoiceDate}</strong>
+                        </div>
+
+                        <div class="invoice-info-box">
+                            <span class="invoice-label">
+                                <i class="fas fa-receipt"></i>
+                                ORDER ID
+                            </span>
+
+                            <strong>#${orderId}</strong>
+                        </div>
+
+                        <div class="invoice-info-box">
+                            <span class="invoice-label">
+                                <i class="fas fa-circle-check"></i>
+                                PAYMENT STATUS
+                            </span>
+
+                            <span class="invoice-status ${statusClass}">
+                                <i class="fas ${
+                                    status === 'Paid'
+                                        ? 'fa-check'
+                                        : 'fa-clock'
+                                }"></i>
+                                ${escapeHtml(status)}
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <!-- Items -->
+                    <div class="invoice-items-section">
+
+                        <div class="invoice-section-title">
+                            <div>
+                                <h3>Order Items</h3>
+                                <span>${items.length} item${items.length !== 1 ? 's' : ''}</span>
+                            </div>
+                        </div>
+
+                        <div class="invoice-table-wrap">
+
+                            <table class="invoice-table">
+
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>PRODUCT</th>
+                                        <th>QTY</th>
+                                        <th>PRICE</th>
+                                        <th>AMOUNT</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    ${itemsHtml}
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Bottom Summary -->
+                    <div class="invoice-bottom">
+
+                        <div class="invoice-note">
+                            <div class="invoice-note-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+
+                            <div>
+                                <strong>Thank you for your business!</strong>
+                                <p>
+                                    We appreciate your trust and support.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="invoice-summary">
+
+                            <div class="invoice-summary-row">
+                                <span>Subtotal</span>
+                                <strong>
+                                    ₹${Number(inv.subtotal || 0).toLocaleString('en-IN')}
+                                </strong>
+                            </div>
+
+                            <div class="invoice-summary-row">
+                                <span>Tax</span>
+                                <strong>
+                                    ₹${Number(inv.tax || 0).toLocaleString('en-IN')}
+                                </strong>
+                            </div>
+
+                            <div class="invoice-total-row">
+                                <span>Total</span>
+
+                                <strong>
+                                    ₹${Number(inv.total || 0).toLocaleString('en-IN')}
+                                </strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="invoice-footer">
+
+                        <span>
+                            <i class="fas fa-shield-halved"></i>
+                            This is a computer-generated invoice.
+                        </span>
+
+                        <span>
+                            Generated ${new Date().toLocaleDateString('en-IN')}
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- Actions -->
+                <div class="invoice-modal-actions no-print">
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="printInvoice('${inv.id}')">
+                        <i class="fas fa-print"></i>
+                        Print Invoice
+                    </button>
+
+                    <button
+                        class="btn btn-outline"
+                        onclick="downloadInvoice('${inv.id}')">
+                        <i class="fas fa-download"></i>
+                        Save / PDF
+                    </button>
+
+                    <button
+                        class="btn btn-outline"
+                        onclick="this.closest('.modal-overlay').remove()">
+                        Close
+                    </button>
+
+                </div>
+
+            </div>
+        `);
+
+    } catch (e) {
+        console.error('Invoice error:', e);
+        showToast('Failed to load invoice: ' + e.message, 'error');
+    }
+}
+
+
+// Escape HTML to prevent broken invoice markup
+function escapeHtml(value) {
+    if (value === null || value === undefined) return '';
+
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+
+// Print only the invoice
+function printInvoice(id) {
+    const invoice = document.getElementById(`print-invoice-${id}`);
+
+    if (!invoice) {
+        showToast('Invoice not found', 'error');
+        return;
+    }
+
+    window.print();
+}
+
+
+// Browser print dialog can save as PDF
+function downloadInvoice(id) {
+    const invoice = document.getElementById(`print-invoice-${id}`);
+
+    if (!invoice) {
+        showToast('Invoice not found', 'error');
+        return;
+    }
+
+    window.print();
+}
 
         // =============================================================
         // INSIGHTS
@@ -2496,52 +3502,7 @@ async function setupAIChat() {
             updateDashboard();
         }
 
-        // =============================================================
-        // INVOICE ACTIONS
-        // =============================================================
-        async function viewInvoice(id) {
-            const invoices = await getInvoices();
-            const inv = invoices.find(i => i.id === id);
-            if (!inv) { showToast('Invoice not found', 'error'); return; }
-            const orders = await getOrders();
-            const order = orders.find(o => o.id === inv.order_id);
-            const customer = order ? order.customer_name : '—';
-            const items = order ? order.items || [] : [];
-            let itemsHtml = items.map(i =>
-                `<tr><td style="text-align:left;">${i.product_name}</td><td style="text-align:center;">${i.quantity || 0}</td><td style="text-align:right;">₹${i.price || 0}</td><td style="text-align:right;">₹${((i.quantity || 0) * (i.price || 0)).toLocaleString()}</td></tr>`
-            ).join('');
-            const businessName = currentBusiness?.name || 'My Business';
-            openModal(`Invoice ${inv.invoice_number}`, `
-                <div style="font-size:0.95rem;">
-                  <p><strong>${businessName}</strong></p>
-                  <p style="font-size:0.85rem;color:var(--gray-500);">Customer: ${customer} | Status: <span class="badge ${inv.status === 'Paid' ? 'badge-green' : 'badge-yellow'}">${inv.status || 'Pending'}</span></p>
-                  <p style="font-size:0.85rem;color:var(--gray-500);">Date: ${inv.created_at ? new Date(inv.created_at).toLocaleDateString() : new Date().toLocaleDateString()}</p>
-                  <table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-top:12px;">
-                    <thead><tr style="border-bottom:1px solid var(--gray-200);">
-                      <th style="text-align:left;">Product</th>
-                      <th style="text-align:center;">Qty</th>
-                      <th style="text-align:right;">Price</th>
-                      <th style="text-align:right;">Total</th>
-                    </tr></thead>
-                    <tbody>${itemsHtml || '<tr><td colspan="4" style="text-align:center;color:var(--gray-400);">No items</td></tr>'}</tbody>
-                  </table>
-                  <div style="text-align:right;margin-top:12px;padding-top:12px;border-top:2px solid var(--gray-200);">
-                    <div style="font-size:0.9rem;color:var(--gray-500);">Subtotal: ₹${(inv.subtotal || 0).toLocaleString()}</div>
-                    <div style="font-size:0.9rem;color:var(--gray-500);">Tax: ₹${(inv.tax || 0).toLocaleString()}</div>
-                    <div style="font-size:1.4rem;font-weight:700;">Total: ₹${(inv.total || 0).toLocaleString()}</div>
-                  </div>
-                  <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
-                    <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
-                    <button class="btn btn-outline" onclick="this.closest('.modal-overlay').remove()">Close</button>
-                  </div>
-                </div>
-              `);
-        }
-
-        function printInvoice(id) {
-            viewInvoice(id);
-            setTimeout(() => window.print(), 400);
-        }
+       
 
         // =============================================================
         // SETTINGS
