@@ -595,7 +595,6 @@
                         </div>
                         <div class="chat-messages" id="ai-chat-messages"></div>
                         <div class="quick-chips">
-                            <span class="chip" data-msg="Spent ₹2500 on electricity today.">⚡ Add Expense</span>
                             <span class="chip" data-msg="Who owes me money?">💰 Pending</span>
                             <span class="chip" data-msg="What is my profit this month?">📊 Profit</span>
                             <span class="chip" data-msg="How many blue shirts are left?">📦 Stock</span>
@@ -1630,89 +1629,375 @@
         }
 
         // =============================================================
+// AI RESPONSE HELPERS
+// =============================================================
+
+function escapeAIHtml(text) {
+
+    if (text === null || text === undefined) {
+        return '';
+    }
+
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+
+function formatAIResponse(text) {
+
+    let html =
+        escapeAIHtml(text);
+
+    // Bold
+    html = html.replace(
+        /\*\*(.*?)\*\*/g,
+        '<strong>$1</strong>'
+    );
+
+    // Inline code
+    html = html.replace(
+        /`([^`]+)`/g,
+        '<code>$1</code>'
+    );
+
+    // Bullet points
+    html = html.replace(
+        /^\s*[-•]\s+(.+)$/gm,
+        '• $1'
+    );
+
+    // New lines
+    html = html.replace(
+        /\n/g,
+        '<br>'
+    );
+
+    return html;
+}
+
+        // =============================================================
         // AI CHAT SETUP
         // =============================================================
-        function setupAIChat() {
-            const messages = document.getElementById('ai-chat-messages');
-            const input = document.getElementById('ai-chat-input');
-            const sendBtn = document.getElementById('ai-chat-send');
-            if (!messages) return;
-            const welcome = document.createElement('div');
-            welcome.className = 'chat-msg bot';
-            welcome.innerHTML =
-                `👋 Hi! I'm your Business AI.<br>Ask me anything about your business. <span class="time">${new Date().toLocaleTimeString()}</span>`;
-            messages.appendChild(welcome);
 
-            async function sendAIMessage() {
-                const text = input.value.trim();
-                if (!text) return;
-                const userMsg = document.createElement('div');
-                userMsg.className = 'chat-msg user';
-                userMsg.innerHTML = `${text} <span class="time">${new Date().toLocaleTimeString()}</span>`;
-                messages.appendChild(userMsg);
-                input.value = '';
-                const typing = document.createElement('div');
-                typing.className = 'chat-msg bot';
-                typing.innerHTML =
-                    '<span class="loader" style="width:16px;height:16px;border-width:2px;"></span> Thinking...';
-                messages.appendChild(typing);
-                messages.scrollTop = messages.scrollHeight;
+        // =============================================================
+// GEMINI AI ASSISTANT
+// =============================================================
 
-                try {
-                    const parsed = parseIntent(text);
-                    let result;
-                    if (parsed.intent === 'unknown') {
-                        result = {
-                            success: false,
-                            message: `🤔 I'm not sure how to help with that. Try: "Spent ₹2500 on electricity" or "Who owes me money?"`
-                        };
-                    } else {
-                        result = await executeIntent(parsed);
+let aiConversationHistory = [];
+
+async function setupAIChat() {
+    const messages = document.getElementById('ai-chat-messages');
+    const input = document.getElementById('ai-chat-input');
+    const sendBtn = document.getElementById('ai-chat-send');
+
+    if (!messages || !input || !sendBtn) return;
+
+    // ---------------------------------------------------------
+    // Prevent duplicate initialization
+    // ---------------------------------------------------------
+
+    if (messages.dataset.initialized === 'true') {
+        return;
+    }
+
+    messages.dataset.initialized = 'true';
+
+    // ---------------------------------------------------------
+    // Welcome message
+    // ---------------------------------------------------------
+
+    const welcome = document.createElement('div');
+
+    welcome.className = 'chat-msg bot';
+
+    welcome.innerHTML = `
+        👋 Hi! I'm your <strong>Business AI</strong>.
+
+        <br><br>
+
+        I can help you understand:
+
+        <br>
+        📊 Revenue & profit
+        <br>
+        📦 Inventory
+        <br>
+        💰 Pending payments
+        <br>
+        👥 Customers
+        <br>
+        🧾 Orders & invoices
+        <br>
+        💸 Expenses
+        <br>
+        💡 Business decisions
+
+        <span class="time">
+            ${new Date().toLocaleTimeString()}
+        </span>
+    `;
+
+    messages.appendChild(welcome);
+
+    // ---------------------------------------------------------
+    // Send message
+    // ---------------------------------------------------------
+
+    async function sendAIMessage() {
+
+        const text = input.value.trim();
+
+        if (!text) return;
+
+        // -----------------------------------------------------
+        // User message
+        // -----------------------------------------------------
+
+        const userMsg =
+            document.createElement('div');
+
+        userMsg.className = 'chat-msg user';
+
+        userMsg.innerHTML = `
+            ${escapeAIHtml(text)}
+
+            <span class="time">
+                ${new Date().toLocaleTimeString()}
+            </span>
+        `;
+
+        messages.appendChild(userMsg);
+
+        // Clear input
+        input.value = '';
+
+        // -----------------------------------------------------
+        // Disable input while processing
+        // -----------------------------------------------------
+
+        input.disabled = true;
+        sendBtn.disabled = true;
+
+        // -----------------------------------------------------
+        // Typing indicator
+        // -----------------------------------------------------
+
+        const typing =
+            document.createElement('div');
+
+        typing.className = 'chat-msg bot';
+
+        typing.innerHTML = `
+            <span
+                class="loader"
+                style="
+                    width:16px;
+                    height:16px;
+                    border-width:2px;
+                    display:inline-block;
+                    vertical-align:middle;
+                    margin-right:8px;
+                "
+            ></span>
+
+            Thinking...
+        `;
+
+        messages.appendChild(typing);
+
+        messages.scrollTop =
+            messages.scrollHeight;
+
+        try {
+
+            // -------------------------------------------------
+            // Call Supabase Edge Function
+            // -------------------------------------------------
+
+            const client = getClient();
+
+            const {
+                data,
+                error
+            } = await client.functions.invoke(
+                'ai-assistant',
+                {
+                    body: {
+                        message: text,
+
+                        history:
+                            aiConversationHistory
+                                .slice(-12)
                     }
-                    typing.remove();
-                    const botMsg = document.createElement('div');
-                    botMsg.className = 'chat-msg bot';
-                    botMsg.innerHTML = `${result.message} <span class="time">${new Date().toLocaleTimeString()}</span>`;
-                    messages.appendChild(botMsg);
-                    messages.scrollTop = messages.scrollHeight;
-
-                    if (['create_expense', 'create_order', 'update_inventory'].includes(parsed.intent)) {
-                        updateDashboard();
-                        const activePage = document.querySelector('.page-section.active');
-                        if (activePage) {
-                            const id = activePage.id;
-                            if (id === 'page-orders') renderOrders();
-                            else if (id === 'page-inventory') renderInventory();
-                            else if (id === 'page-expenses') renderExpenses();
-                            else if (id === 'page-payments') renderPayments();
-                            else if (id === 'page-invoices') renderInvoices();
-                            else if (id === 'page-insights') renderInsights();
-                        }
-                    }
-                } catch (e) {
-                    typing.remove();
-                    const botMsg = document.createElement('div');
-                    botMsg.className = 'chat-msg bot';
-                    botMsg.innerHTML = `❌ Error: ${e.message} <span class="time">${new Date().toLocaleTimeString()}</span>`;
-                    messages.appendChild(botMsg);
-                    messages.scrollTop = messages.scrollHeight;
                 }
+            );
+
+            if (error) {
+                throw error;
             }
 
-            if (sendBtn) sendBtn.addEventListener('click', sendAIMessage);
-            if (input) {
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') sendAIMessage();
-                });
+            if (!data || !data.success) {
+                throw new Error(
+                    data?.error ||
+                    'AI assistant failed.'
+                );
             }
-            document.querySelectorAll('.quick-chips .chip').forEach(chip => {
-                chip.addEventListener('click', () => {
-                    input.value = chip.dataset.msg || chip.textContent.trim();
-                    sendAIMessage();
-                });
+
+            const reply =
+                data.reply || 'No response received.';
+
+            // -------------------------------------------------
+            // Save conversation
+            // -------------------------------------------------
+
+            aiConversationHistory.push({
+                role: 'user',
+                content: text
             });
-        }
 
+            aiConversationHistory.push({
+                role: 'assistant',
+                content: reply
+            });
+
+            // Keep last 12 messages
+            if (
+                aiConversationHistory.length > 12
+            ) {
+                aiConversationHistory =
+                    aiConversationHistory.slice(-12);
+            }
+
+            // -------------------------------------------------
+            // Remove typing
+            // -------------------------------------------------
+
+            typing.remove();
+
+            // -------------------------------------------------
+            // Bot response
+            // -------------------------------------------------
+
+            const botMsg =
+                document.createElement('div');
+
+            botMsg.className = 'chat-msg bot';
+
+            botMsg.innerHTML = `
+                ${formatAIResponse(reply)}
+
+                <span class="time">
+                    ${new Date().toLocaleTimeString()}
+                </span>
+            `;
+
+            messages.appendChild(botMsg);
+
+            messages.scrollTop =
+                messages.scrollHeight;
+
+        } catch (error) {
+
+            console.error(
+                'AI Assistant Error:',
+                error
+            );
+
+            typing.remove();
+
+            const botMsg =
+                document.createElement('div');
+
+            botMsg.className = 'chat-msg bot';
+
+            botMsg.innerHTML = `
+                ❌ <strong>AI Assistant Error</strong>
+
+                <br>
+
+                ${
+                    escapeAIHtml(
+                        error?.message ||
+                        'Something went wrong.'
+                    )
+                }
+
+                <span class="time">
+                    ${new Date().toLocaleTimeString()}
+                </span>
+            `;
+
+            messages.appendChild(botMsg);
+
+            messages.scrollTop =
+                messages.scrollHeight;
+
+        } finally {
+
+            input.disabled = false;
+            sendBtn.disabled = false;
+
+            input.focus();
+        }
+    }
+
+    // ---------------------------------------------------------
+    // Send button
+    // ---------------------------------------------------------
+
+    sendBtn.addEventListener(
+        'click',
+        sendAIMessage
+    );
+
+    // ---------------------------------------------------------
+    // Enter key
+    // ---------------------------------------------------------
+
+    input.addEventListener(
+        'keydown',
+        (event) => {
+
+            if (
+                event.key === 'Enter' &&
+                !event.shiftKey
+            ) {
+                event.preventDefault();
+
+                sendAIMessage();
+            }
+        }
+    );
+
+    // ---------------------------------------------------------
+    // Quick chips
+    // ---------------------------------------------------------
+
+    document
+        .querySelectorAll(
+            '.quick-chips .chip'
+        )
+        .forEach((chip) => {
+
+            chip.addEventListener(
+                'click',
+                () => {
+
+                    input.value =
+                        chip.dataset.msg ||
+                        chip.textContent.trim();
+
+                    sendAIMessage();
+                }
+            );
+
+        });
+}
+       
         // =============================================================
         // WHATSAPP SIMULATION
         // =============================================================
