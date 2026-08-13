@@ -1154,6 +1154,7 @@
         // =============================================================
         async function renderOrders() {
             const container = document.getElementById('orders-table-container');
+            container.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h4>Loading orders...</h4></div>'
             if (!container) return;
             try {
                 const orders = await getOrders();
@@ -1195,6 +1196,7 @@
 
         async function renderInventory() {
             const container = document.getElementById('inventory-table-container');
+            container.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h4>Loading Inventory...</h4></div>'
             if (!container) return;
             try {
                 const products = await getProducts();
@@ -1232,6 +1234,7 @@
 
         async function renderCustomers() {
             const container = document.getElementById('customers-table-container');
+            container.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h4>Loading Customers...</h4></div>'
             if (!container) return;
             try {
                 const customers = await getCustomers();
@@ -1262,6 +1265,7 @@
 
         async function renderExpenses() {
             const container = document.getElementById('expenses-table-container');
+            container.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h4>Loading Expenses...</h4></div>'
             if (!container) return;
             try {
                 const expenses = await getExpenses();
@@ -1290,6 +1294,7 @@
 
         async function renderPayments() {
             const container = document.getElementById('payments-table-container');
+            container.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h4>Loading Payments...</h4></div>'
             if (!container) return;
             try {
                 const payments = await getPayments();
@@ -1323,6 +1328,7 @@
 
         async function renderInvoices() {
             const container = document.getElementById('invoices-container');
+            container.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h4>Loading Invoices...</h4></div>'
             if (!container) return;
             try {
                 const invoices = await getInvoices();
@@ -1368,6 +1374,7 @@
         // =============================================================
         async function renderInsights() {
             const container = document.getElementById('insights-container');
+            container.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h4>Loading Insights...</h4></div>'
             if (!container) return;
             try {
                 const stats = await getStats();
