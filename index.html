@@ -138,18 +138,18 @@
     width: 100%;
 
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-end;
 
-    padding: 8%;
+    padding: 8vh 8% 40px;
 
     overflow: hidden;
 
-    /* AuthLanding.png as full background */
     background-image: url("assets/AuthImage.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+     
 }
 
 /* Dark overlay so card stands out */
@@ -171,7 +171,6 @@
 /* ================================
    AUTH CARD
    ================================ */
-
 .auth-box {
     position: relative;
     z-index: 2;
@@ -193,7 +192,8 @@
     box-shadow:
         0 25px 70px rgba(0, 0, 0, 0.25);
 
-    animation: authCardAppear 0.45s ease;
+    /* IMPORTANT */
+    animation: none;
 }
 
 @keyframes authCardAppear {
@@ -1098,7 +1098,7 @@
 
 .hero-overlay {
     position: absolute;
-    top: 50%;
+    top: 44%;
     left: 8%;
     transform: translateY(-50%);
     max-width: 450px;
