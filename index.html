@@ -2517,7 +2517,7 @@ function downloadInvoice(id) {
                   `).join('');
             } catch (e) {
                 container.innerHTML =
-                    `<div class="insight-card"><div class="text">Error loading insights: ${e.message}</div></div>`;
+                    `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h4>Error loading customers</h4><p>${e.message}</p></div>`;
             }
         }
 
