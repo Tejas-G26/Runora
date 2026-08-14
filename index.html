@@ -1300,6 +1300,7 @@
         let currentBusiness = null;
         let chartInstances = {};
         let currentPage = 'landing';
+        let isLoggingOut = false;
 
         // =============================================================
         // TOAST
@@ -1323,137 +1324,348 @@
             }, 4000);
         }
 
-        // =============================================================
-        // SUPABASE INIT
-        // =============================================================
-        function initSupabase() {
-            if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-                console.error('Supabase credentials missing. Please set SUPABASE_URL and SUPABASE_ANON_KEY.');
-                updateConnectionStatus(false);
-                return null;
-            }
-            try {
-                const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                supabaseClient = client;
-                updateConnectionStatus(true);
-                return client;
-            } catch (e) {
-                console.error('Failed to init Supabase:', e);
-                updateConnectionStatus(false);
-                return null;
-            }
-        }
+// =============================================================
+// SUPABASE INIT
+// =============================================================
+function initSupabase() {
+    if (supabaseClient) {
+        return supabaseClient;
+    }
 
-        function updateConnectionStatus(connected) {
-            const el = document.getElementById('connection-status');
-            if (!el) return;
-            if (connected) {
-                el.className = 'status-badge status-connected';
-                el.innerHTML = '<i class="fas fa-link" style="font-size:1rem;"></i> Connected';
-            } else {
-                el.className = 'status-badge status-disconnected';
-                el.innerHTML = '<i class="fas fa-unlink" style="font-size:1rem;"></i> Disconnected';
-            }
-        }
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+        console.error(
+            'Supabase credentials missing. Please set SUPABASE_URL and SUPABASE_ANON_KEY.'
+        );
 
-        // =============================================================
-        // AUTH
-        // =============================================================
-        async function signUp(email, password, businessName) {
-            const client = initSupabase();
-            if (!client) {
-                showToast('❌ Supabase not configured. Check your credentials.', 'error');
-                return;
-            }
-            try {
-                const { data, error } = await client.auth.signUp({
-                    email,
-                    password,
-                    options: { data: { business_name: businessName || 'My Business' } }
-                });
-                if (error) throw error;
-                showToast('✅ Account created! Please check your email to confirm.', 'success');
-                // Auto-login
-                const { data: sessionData, error: sessionError } = await client.auth.signInWithPassword({ email,
-                    password });
-                if (sessionError) throw sessionError;
-                currentUser = sessionData.user;
-                await loadBusiness();
-                enterApp();
-            } catch (e) {
-                showToast('❌ ' + e.message, 'error');
-            }
-        }
+        updateConnectionStatus(false);
+        return null;
+    }
 
-        async function signIn(email, password) {
-            const client = initSupabase();
-            if (!client) {
-                showToast('❌ Supabase not configured. Check your credentials.', 'error');
-                return;
-            }
-            try {
-                const { data, error } = await client.auth.signInWithPassword({ email, password });
-                if (error) throw error;
-                currentUser = data.user;
-                await loadBusiness();
-                enterApp();
-                showToast('✅ Welcome back!', 'success');
-            } catch (e) {
-                showToast('❌ ' + e.message, 'error');
-            }
-        }
-
-        async function loadBusiness() {
-            const client = initSupabase();
-            if (!client || !currentUser) return;
-            try {
-                const { data, error } = await client
-                    .from('businesses')
-                    .select('*')
-                    .eq('owner_id', currentUser.id)
-                    .single();
-                if (error && error.code !== 'PGRST116') throw error;
-                if (data) {
-                    currentBusiness = data;
-                } else {
-                    const bizName = currentUser.user_metadata?.business_name || 'My Business';
-                    const { data: newBiz, error: createError } = await client
-                        .from('businesses')
-                        .insert({ name: bizName, type: 'Retail', owner_id: currentUser.id })
-                        .select()
-                        .single();
-                    if (createError) throw createError;
-                    currentBusiness = newBiz;
+    try {
+        supabaseClient = supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY,
+            {
+                auth: {
+                    persistSession: true,
+                    autoRefreshToken: true,
+                    detectSessionInUrl: true
                 }
-                // Update settings page
-                document.getElementById('settings-business-name').value = currentBusiness?.name || '';
-                document.getElementById('settings-contact-number').value = currentBusiness?.wa_phone_number_id || '';
-                document.getElementById('settings-business-type').value = currentBusiness?.type || '';
-            } catch (e) {
-                console.error('Load business error:', e);
-                showToast('Error loading business: ' + e.message, 'error');
             }
+        );
+
+        updateConnectionStatus(true);
+
+        console.log('✅ Supabase client initialized');
+
+        return supabaseClient;
+
+    } catch (e) {
+        console.error('❌ Failed to init Supabase:', e);
+
+        supabaseClient = null;
+        updateConnectionStatus(false);
+
+        return null;
+    }
+}
+
+
+// =============================================================
+// CONNECTION STATUS
+// =============================================================
+function updateConnectionStatus(connected) {
+    const el = document.getElementById('connection-status');
+
+    if (!el) return;
+
+    if (connected) {
+        el.className = 'status-badge status-connected';
+
+        el.innerHTML =
+            '<i class="fas fa-link" style="font-size:1rem;"></i> Connected';
+
+    } else {
+        el.className = 'status-badge status-disconnected';
+
+        el.innerHTML =
+            '<i class="fas fa-unlink" style="font-size:1rem;"></i> Disconnected';
+    }
+}
+
+
+// =============================================================
+// SIGN UP
+// =============================================================
+async function signUp(email, password, businessName) {
+
+    const client = initSupabase();
+
+    if (!client) {
+        showToast(
+            '❌ Supabase not configured. Check your credentials.',
+            'error'
+        );
+        return;
+    }
+
+    try {
+
+        const { data, error } = await client.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    business_name: businessName || 'My Business'
+                }
+            }
+        });
+
+        if (error) {
+            throw error;
         }
 
-        async function handleLogout() {
-            const client = initSupabase();
-            if (client) {
-                try { await client.auth.signOut(); } catch (e) { /* ignore */ }
-            }
-            currentUser = null;
-            currentBusiness = null;
-            showToast('👋 Logged out', 'info');
-            navigateTo('landing');
+        console.log('Signup response:', data);
+
+        /*
+         * If email confirmation is enabled,
+         * Supabase will return no session.
+         */
+        if (!data.session) {
+
+            showToast(
+                '✅ Account created! Please check your email to confirm.',
+                'success'
+            );
+
+            showAuthForm('login');
+
+            return;
         }
 
-        // =============================================================
-        // CRUD OPERATIONS
-        // =============================================================
-        function getClient() {
-            const client = initSupabase();
-            if (!client) throw new Error('Supabase not configured. Check your credentials.');
-            return client;
+        /*
+         * If email confirmation is disabled,
+         * the user will already have a session.
+         */
+        currentUser = data.user;
+
+        await loadBusiness();
+
+        enterApp();
+
+        showToast(
+            '✅ Account created successfully!',
+            'success'
+        );
+
+    } catch (e) {
+
+        console.error('Signup error:', e);
+
+        showToast(
+            '❌ ' + e.message,
+            'error'
+        );
+    }
+}
+
+
+// =============================================================
+// SIGN IN
+// =============================================================
+async function signIn(email, password) {
+
+    const client = initSupabase();
+
+    if (!client) {
+        showToast(
+            '❌ Supabase not configured. Check your credentials.',
+            'error'
+        );
+        return;
+    }
+
+    try {
+
+        const { data, error } =
+            await client.auth.signInWithPassword({
+                email,
+                password
+            });
+
+        if (error) {
+            throw error;
         }
+
+        if (!data.session || !data.user) {
+            throw new Error('Login succeeded but no session was created.');
+        }
+
+        currentUser = data.user;
+
+        console.log('✅ Signed in:', currentUser.email);
+
+        await loadBusiness();
+
+        enterApp();
+
+        showToast(
+            '✅ Welcome back!',
+            'success'
+        );
+
+    } catch (e) {
+
+        console.error('Sign in error:', e);
+
+        showToast(
+            '❌ ' + e.message,
+            'error'
+        );
+    }
+}
+
+
+// =============================================================
+// LOAD BUSINESS
+// =============================================================
+async function loadBusiness() {
+
+    const client = initSupabase();
+
+    if (!client || !currentUser) {
+        return;
+    }
+
+    try {
+
+        const { data, error } = await client
+            .from('businesses')
+            .select('*')
+            .eq('owner_id', currentUser.id)
+            .single();
+
+        if (error && error.code !== 'PGRST116') {
+            throw error;
+        }
+
+        if (data) {
+
+            currentBusiness = data;
+
+        } else {
+
+            const bizName =
+                currentUser.user_metadata?.business_name ||
+                'My Business';
+
+            const {
+                data: newBiz,
+                error: createError
+            } = await client
+                .from('businesses')
+                .insert({
+                    name: bizName,
+                    type: 'Retail',
+                    owner_id: currentUser.id
+                })
+                .select()
+                .single();
+
+            if (createError) {
+                throw createError;
+            }
+
+            currentBusiness = newBiz;
+        }
+
+        const businessName =
+            document.getElementById('settings-business-name');
+
+        const contactNumber =
+            document.getElementById('settings-contact-number');
+
+        const businessType =
+            document.getElementById('settings-business-type');
+
+        if (businessName) {
+            businessName.value =
+                currentBusiness?.name || '';
+        }
+
+        if (contactNumber) {
+            contactNumber.value =
+                currentBusiness?.wa_phone_number_id || '';
+        }
+
+        if (businessType) {
+            businessType.value =
+                currentBusiness?.type || '';
+        }
+
+    } catch (e) {
+
+        console.error('Load business error:', e);
+
+        showToast(
+            'Error loading business: ' + e.message,
+            'error'
+        );
+    }
+}
+
+
+// =============================================================
+// LOGOUT
+// =============================================================
+async function handleLogout() {
+    console.log('🔐 Logging out...');
+
+    // Clear Supabase's locally persisted auth session
+    const client = initSupabase();
+
+    try {
+        if (client?.auth?.storage) {
+            const storageKey = 'sb-uqxehdkhhicwvifstkcu-auth-token';
+
+            await client.auth.storage.removeItem(storageKey);
+
+            console.log('✅ Local Supabase session removed');
+        }
+    } catch (e) {
+        console.warn('Local session cleanup:', e);
+    }
+
+    // Clear application state
+    currentUser = null;
+    currentBusiness = null;
+
+    // Go to landing page
+    navigateTo('landing');
+
+    showToast('👋 Logged out successfully', 'info');
+
+    // Optional: reload so no stale in-memory auth state remains
+    setTimeout(() => {
+        window.location.reload();
+    }, 300);
+}
+
+// =============================================================
+// GET SUPABASE CLIENT
+// =============================================================
+function getClient() {
+
+    const client = initSupabase();
+
+    if (!client) {
+        throw new Error(
+            'Supabase not configured. Check your credentials.'
+        );
+    }
+
+    return client;
+}
 
         // ---- Products ----
         async function getProducts() {
