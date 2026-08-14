@@ -105,7 +105,7 @@
         .loader-sm { width: 14px; height: 14px; border-width: 2px; }
 
         /* ===== Landing Page ===== */
-        .landing-hero { padding: 80px 0 60px; background: linear-gradient(180deg, #fff 0%, var(--gray-50) 100%); min-height: 90vh; display: flex; align-items: center; }
+        .landing-hero {  background: linear-gradient(180deg, #fff 0%, var(--gray-50) 100%); min-height: 50vh; display: flex; align-items: center; }
         .landing-hero h1 { font-size: 3.8rem; font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; color: var(--dark); }
         .landing-hero h1 span { color: var(--primary-dark); }
         .landing-hero .sub { font-size: 1.25rem; color: var(--gray-600); max-width: 560px; margin-top: 12px; line-height: 1.7; }
@@ -911,13 +911,58 @@
     padding: 24px;
 }
 
+
+.hero-overlay {
+    position: absolute;
+    top: 50%;
+    left: 8%;
+    transform: translateY(-50%);
+    max-width: 450px;
+    color: white;
+}
+
+.hero-overlay h1 {
+    font-size: 3.5rem;
+    line-height: 1.05;
+    margin-bottom: 16px;
+}
+
+.hero-overlay p {
+    font-size: 1.1rem;
+    margin-bottom: 24px;
+}
+
+.landing-hero {
+    position: relative;
+    width: 100%;
+    height: 620px;
+    overflow: hidden;
+}
+
+.hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
 @media (max-width: 768px) {
-    .modal-overlay .modal:has(.invoice-modal) {
-        width: 98vw;
-        padding: 12px;
+    .landing-hero {
+        height: 560px;
+    }
+
+    .hero-image img {
+        object-position: center;
     }
 }
-    </style>
+</style>
 </head>
 <body>
 
@@ -937,31 +982,40 @@
     <!-- ============================================================ -->
     <!-- LANDING PAGE -->
     <!-- ============================================================ -->
-    <div id="landing-page" class="page-section active">
-        <section class="landing-hero">
-            <div class="container">
+    <div id="landing-page" class="page-section active" >
+        <section class="landing-hero" >
+        <div class="hero-image" >
+        <img src="assets/LandingImage.png" style="width:100%;">
+       
+            <div class="container" >
                 <div class="flex" style="gap:48px; flex-wrap:wrap; align-items:center; justify-content:space-between;">
-                    <div style="flex:1; min-width:280px;">
+                    <div style="flex:1; min-width:0px;">
+                        <div class="hero-overlay">
                         <div style="display:inline-flex; align-items:center; gap:8px; background:var(--primary-bg); padding:6px 16px; border-radius:30px; font-size:0.8rem; font-weight:600; color:var(--primary-dark); margin-bottom:20px;">
                             <i class="fas fa-bolt"></i> AI-Powered Business Platform
                         </div>
-                        <h1>
+                        <h1 style="color: #0fe645;">
                             Runora
                         </h1>
-                        <p class="sub">
+                        <p class="sub" style="color: white;font-weight: 800;">
                             Everything your business needs. All in one place.
                         </p>
-                        <p style="color:var(--gray-500); margin-top:8px; font-size:1rem; max-width:500px;">
+                        <p style="color:var(--white-500); margin-top:8px; font-size:1rem; max-width:500px;font-weight: 400;">
                             Manage orders, inventory, customers, payments, expenses, and invoices — while AI helps you understand and run your business smarter.
                         </p>
                         <div class="cta-group">
                             <a href="#" onclick="navigateTo('login')" class="btn btn-primary"><i class="fas fa-rocket"></i> Get Started</a>
                         </div>
+                        </div>
+
                     </div>
                  
                 </div>
             </div>
+            </div>
         </section>
+        
+    
 
         <section id="features-section" style="padding:40px 0 60px; background:#fff;">
             <div class="container">
