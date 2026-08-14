@@ -122,23 +122,207 @@
         .feature-grid .item h4 { font-size: 0.95rem; font-weight: 600; }
         .feature-grid .item p { font-size: 0.8rem; color: var(--gray-500); margin-top: 2px; }
         .landing-footer { padding: 32px 0; border-top: 1px solid var(--gray-200); background: #fff; color: var(--gray-500); font-size: 0.85rem; text-align: center; }
+          
+        /* =========================================================
+   MODERN AUTH PAGE
+   ========================================================= */
 
-        /* ===== Auth ===== */
-        .auth-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--gray-50) 0%, #fff 100%); padding: 24px; }
-        .auth-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow-hover); padding: 40px 48px; max-width: 420px; width: 100%; border: 1px solid var(--gray-100); }
-        .auth-box .logo { text-align: center; margin-bottom: 28px; }
-        .auth-box .logo h2 { font-size: 1.8rem; font-weight: 800; color: var(--dark); }
-        .auth-box .logo h2 span { color: var(--primary-dark); }
-        .auth-box .logo p { color: var(--gray-500); font-size: 0.9rem; }
-        .auth-box .form-group { margin-bottom: 18px; }
-        .auth-box .form-group label { display: block; font-weight: 600; font-size: 0.85rem; color: var(--gray-700); margin-bottom: 4px; }
-        .auth-box .form-group input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); transition: all var(--transition); background: var(--gray-50); color: var(--dark); }
-        .auth-box .form-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,211,102,0.15); background: #fff; }
-        .auth-box .btn { width: 100%; padding: 12px; font-size: 1rem; margin-top: 6px; }
-        .auth-box .switch { text-align: center; margin-top: 16px; font-size: 0.9rem; color: var(--gray-500); }
-        .auth-box .switch a { color: var(--primary-dark); font-weight: 600; cursor: pointer; }
-        .auth-box .switch a:hover { text-decoration: underline; }
+/* Background illustration */
+/* ================================
+   AUTH PAGE — FULL BACKGROUND IMAGE
+   ================================ */
 
+.auth-wrapper {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 8%;
+
+    overflow: hidden;
+
+    /* AuthLanding.png as full background */
+    background-image: url("assets/AuthLanding.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Dark overlay so card stands out */
+.auth-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.25);
+
+    z-index: 1;
+}
+
+/* Hide the actual img element */
+.auth-wrapper > img {
+    display: none;
+}
+
+/* ================================
+   AUTH CARD
+   ================================ */
+
+.auth-box {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    max-width: 430px;
+
+    padding: 40px;
+
+    background: rgba(255, 255, 255, 0.1);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, 0.7);
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.25);
+
+    animation: authCardAppear 0.45s ease;
+}
+
+@keyframes authCardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Logo */
+
+.auth-box .logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-box .logo h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #15d949;
+}
+
+.auth-box .logo h2 span {
+    color: #ffffff;
+}
+
+.auth-box .logo p {
+    margin-top: 4px;
+    color: #ffffff;
+    font-size: 0.9rem;
+}
+
+/* Inputs */
+
+.auth-box .form-group {
+    margin-bottom: 18px;
+}
+
+.auth-box .form-group input {
+    width: 100%;
+
+    padding: 13px 15px;
+
+    border: 1.5px solid #E2E8F0;
+    border-radius: 12px;
+
+    background: #F8FAFC;
+
+    transition: 0.2s ease;
+}
+
+.auth-box .form-group input:focus {
+    background: #fff;
+
+    border-color: #25D366;
+
+    box-shadow:
+        0 0 0 4px rgba(37, 211, 102, 0.12);
+}
+
+/* Button */
+
+.auth-box .btn {
+    width: 100%;
+
+    padding: 13px;
+
+    border-radius: 12px;
+
+    font-size: 0.95rem;
+    font-weight: 700;
+
+    background: linear-gradient(
+        135deg,
+        #25D366,
+        #128C7E
+    );
+
+    box-shadow:
+        0 8px 20px rgba(37, 211, 102, 0.25);
+
+    transition: 0.2s ease;
+}
+
+.auth-box .btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 28px rgba(37, 211, 102, 0.35);
+}
+
+/* Login / Register switch */
+
+.auth-box .switch {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.auth-box .switch a {
+    color: #159c23;
+    font-weight: 700;
+}
+
+/* ================================
+   MOBILE
+   ================================ */
+
+@media (max-width: 600px) {
+
+    .auth-wrapper {
+        padding: 16px;
+
+        background-position: center;
+    }
+
+    .auth-box {
+        max-width: 100%;
+
+        padding: 30px 22px;
+
+        border-radius: 20px;
+    }
+}
+       
         /* ===== App Layout ===== */
         .app-layout { display: flex; min-height: 100vh; }
         .app-sidebar { width: 240px; background: var(--card); border-right: 1px solid var(--gray-200); padding: 24px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; z-index: 100; transition: transform 0.3s ease; display: flex; flex-direction: column; }
@@ -962,6 +1146,32 @@
         object-position: center;
     }
 }
+
+.auth-brand-left {
+    position: absolute;
+    z-index: 2;
+
+    left: 7%;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: clamp(4rem, 7vw, 7rem);
+    font-weight: 900;
+    letter-spacing: -0.07em;
+
+    color: #25D366;
+
+    text-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.45);
+
+    white-space: nowrap;
+}
+@media (max-width: 900px) {
+    .auth-brand-left {
+        display: none;
+    }
+}
 </style>
 </head>
 <body>
@@ -1004,7 +1214,7 @@
                             Manage orders, inventory, customers, payments, expenses, and invoices — while AI helps you understand and run your business smarter.
                         </p>
                         <div class="cta-group">
-                            <a href="#" onclick="navigateTo('login')" class="btn btn-primary"><i class="fas fa-rocket"></i> Get Started</a>
+                            <a href="#" onclick="navigateTo('login')" class="btn btn-primary"> Get Started</a>
                         </div>
                         </div>
 
@@ -1042,54 +1252,122 @@
     <!-- ============================================================ -->
     <!-- AUTH PAGE -->
     <!-- ============================================================ -->
-    <div id="auth-page" class="page-section">
-        <div class="auth-wrapper">
-            <div class="auth-box">
-                <div class="logo">
-                    <h2>Runora</h2>
-                    <p>The smarter way to run your business.</p>
-                </div>
-                <div id="auth-form-container">
-                    <!-- Login form -->
-                    <form id="login-form">
-                        <div class="form-group">
-                            <label for="login-email">Email</label>
-                            <input type="email" id="login-email" placeholder="you@example.com" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="login-password">Password</label>
-                            <input type="password" id="login-password" placeholder="••••••••" required />
-                        </div>
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Sign In</button>
-                        <div class="switch">
-                            Don't have an account? <a onclick="showAuthForm('signup')">Sign Up</a>
-                        </div>
-                    </form>
+        <div id="auth-page" class="page-section">
+    <div class="auth-wrapper">
+        <img
+            src="assets/AuthLanding.png"
+            alt="Runora business management"
+        />
 
-                    <!-- Signup form -->
-                    <form id="signup-form" style="display:none;">
-                        <div class="form-group">
-                            <label for="signup-email">Email</label>
-                            <input type="email" id="signup-email" placeholder="you@example.com" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="signup-password">Password</label>
-                            <input type="password" id="signup-password" placeholder="••••••••" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="signup-business">Business Name</label>
-                            <input type="text" id="signup-business" placeholder="My Business" required />
-                        </div>
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i> Create Account</button>
-                        <div class="switch">
-                            Already have an account? <a onclick="showAuthForm('login')">Sign In</a>
-                        </div>
-                    </form>
-                </div>
+        <div class="auth-brand-left">
+        Runora
+        </div>
+
+        <div class="auth-box">
+
+            <div class="logo">
+                <h2>Runora</h2>
+                <p>The smarter way to run your business.</p>
+            </div>
+
+            <div id="auth-form-container">
+
+                <!-- Login form -->
+                <form id="login-form">
+
+                    <div class="form-group">
+                        <label style="color: white;" for="login-email">Email</label>
+                        <input
+                            type="email"
+                            id="login-email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label style="color: white;" for="login-password">Password</label>
+                        <input
+                            type="password"
+                            id="login-password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i>
+                        Sign In
+                    </button>
+
+                    <div class="switch">
+                        Don't have an account?
+                        <a onclick="showAuthForm('signup')">
+                            Create one
+                        </a>
+                    </div>
+
+                </form>
+
+
+                <!-- Signup form -->
+                <form id="signup-form" style="display:none;">
+
+                    <div class="form-group">
+                        <label style="color: white;" for="signup-email">Email</label>
+                        <input
+                            type="email"
+                            id="signup-email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label style="color: white;" for="signup-password">Password</label>
+                        <input
+                            type="password"
+                            id="signup-password"
+                            placeholder="Create a strong password"
+                            autocomplete="new-password"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label style="color: white;" for="signup-business">
+                            Business Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="signup-business"
+                            placeholder="Your business name"
+                            autocomplete="organization"
+                            required
+                        />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">   
+                        Create Account
+                    </button>
+
+                    <div class="switch">
+                        Already have an account?
+                        <a onclick="showAuthForm('login')">
+                            Sign In
+                        </a>
+                    </div>
+
+                </form>
+
             </div>
         </div>
     </div>
-
+</div>
     <!-- ============================================================ -->
     <!-- APP -->
     <!-- ============================================================ -->
@@ -1356,7 +1634,7 @@ function initSupabase() {
 
         updateConnectionStatus(true);
 
-        console.log('✅ Supabase client initialized');
+        console.log(' Supabase client initialized');
 
         return supabaseClient;
 
@@ -1434,7 +1712,7 @@ async function signUp(email, password, businessName) {
         if (!data.session) {
 
             showToast(
-                '✅ Account created! Please check your email to confirm.',
+                ' Account created! Please check your email to confirm.',
                 'success'
             );
 
@@ -1454,7 +1732,7 @@ async function signUp(email, password, businessName) {
         enterApp();
 
         showToast(
-            '✅ Account created successfully!',
+            ' Account created successfully!',
             'success'
         );
 
@@ -1503,14 +1781,12 @@ async function signIn(email, password) {
 
         currentUser = data.user;
 
-        console.log('✅ Signed in:', currentUser.email);
-
         await loadBusiness();
 
         enterApp();
 
         showToast(
-            '✅ Welcome back!',
+            ' Welcome back!',
             'success'
         );
 
@@ -1630,7 +1906,7 @@ async function handleLogout() {
 
             await client.auth.storage.removeItem(storageKey);
 
-            console.log('✅ Local Supabase session removed');
+            console.log(' Local Supabase session removed');
         }
     } catch (e) {
         console.warn('Local session cleanup:', e);
@@ -1643,7 +1919,7 @@ async function handleLogout() {
     // Go to landing page
     navigateTo('landing');
 
-    showToast('👋 Logged out successfully', 'info');
+    showToast('Logged out successfully', 'info');
 
     // Optional: reload so no stale in-memory auth state remains
     setTimeout(() => {
@@ -2785,7 +3061,7 @@ function downloadInvoice(id) {
                     expense_date: new Date().toISOString().slice(0, 10)
                 };
                 await addExpense(expense);
-                return { success: true, message: `✅ ₹${expense.amount} ${expense.category} expense recorded.` };
+                return { success: true, message: ` ₹${expense.amount} ${expense.category} expense recorded.` };
             }
             if (intent === 'update_inventory') {
                 const products = await getProducts();
@@ -2806,7 +3082,7 @@ function downloadInvoice(id) {
             if (intent === 'get_pending_payments') {
                 const payments = await getPayments();
                 const pending = payments.filter(p => p.status === 'Pending');
-                if (pending.length === 0) return { success: true, message: `✅ No pending payments.` };
+                if (pending.length === 0) return { success: true, message: ` No pending payments.` };
                 const list = pending.map(p => `${p.customer_name}: ₹${p.amount}`).join(', ');
                 const total = pending.reduce((s, p) => s + (p.amount || 0), 0);
                 return { success: true, message: `💳 Pending payments: ${list}. Total: ₹${total.toLocaleString()}` };
@@ -2881,7 +3157,7 @@ function downloadInvoice(id) {
                 });
                 return {
                     success: true,
-                    message: `✅ Order created! ${qty} × ${product.name} = ₹${total.toLocaleString()}. Inventory updated.`
+                    message: ` Order created! ${qty} × ${product.name} = ₹${total.toLocaleString()}. Inventory updated.`
                 };
             }
             return {
@@ -3297,7 +3573,7 @@ async function setupAIChat() {
                         const orders = await getOrders();
                         const lastOrder = orders[orders.length - 1];
                         replyText =
-                            `✅ Order placed! ${parsed.quantity} × ${parsed.product_name || 'product'}. Total: ₹${lastOrder?.total_amount || 0}`;
+                            ` Order placed! ${parsed.quantity} × ${parsed.product_name || 'product'}. Total: ₹${lastOrder?.total_amount || 0}`;
                     }
                     reply.innerHTML = `${replyText} <span class="time">${new Date().toLocaleTimeString()}</span>`;
                     body.appendChild(reply);
@@ -3551,7 +3827,7 @@ async function setupAIChat() {
                     pending_payment: (cust.pending_payment || 0) + total,
                     last_order_date: new Date().toISOString().slice(0, 10)
                 });
-                showToast(`✅ Order created! ${qty}×${product.name} = ₹${total.toLocaleString()}`, 'success');
+                showToast(` Order created! ${qty}×${product.name} = ₹${total.toLocaleString()}`, 'success');
                 document.querySelector('.modal-overlay')?.remove();
                 renderOrders();
                 updateDashboard();
@@ -3603,11 +3879,11 @@ async function setupAIChat() {
                     minimum_stock: parseInt(document.getElementById('modal-product-min').value) || 5,
                 };
                 if (!product.name || product.price <= 0) {
-                    showToast('❌ Please fill in all required fields', 'error');
+                    showToast('Please fill in all required fields', 'error');
                     return;
                 }
                 await addProduct(product);
-                showToast(`✅ ${product.name} added to inventory!`, 'success');
+                showToast(` ${product.name} added to inventory!`, 'success');
                 document.querySelector('.modal-overlay')?.remove();
                 renderInventory();
                 updateDashboard();
@@ -3640,11 +3916,11 @@ async function setupAIChat() {
                     email: document.getElementById('modal-customer-email').value.trim() || '',
                 };
                 if (!customer.name) {
-                    showToast('❌ Please enter a customer name', 'error');
+                    showToast('Please enter a customer name', 'error');
                     return;
                 }
                 await addCustomer(customer);
-                showToast(`✅ ${customer.name} added!`, 'success');
+                showToast(` ${customer.name} added!`, 'success');
                 document.querySelector('.modal-overlay')?.remove();
                 renderCustomers();
                 updateDashboard();
@@ -3687,11 +3963,11 @@ async function setupAIChat() {
                     expense_date: new Date().toISOString().slice(0, 10),
                 };
                 if (expense.amount <= 0) {
-                    showToast('❌ Please enter a valid amount', 'error');
+                    showToast('Please enter a valid amount', 'error');
                     return;
                 }
                 await addExpense(expense);
-                showToast(`✅ ${expense.category} expense of ₹${expense.amount} recorded!`, 'success');
+                showToast(` ${expense.category} expense of ₹${expense.amount} recorded!`, 'success');
                 document.querySelector('.modal-overlay')?.remove();
                 renderExpenses();
                 updateDashboard();
@@ -3730,7 +4006,7 @@ async function setupAIChat() {
 
         async function updateOrderStatus(id, status) {
             await updateOrder(id, { status });
-            showToast(`✅ Order status updated to ${status}`, 'success');
+            showToast(` Order status updated to ${status}`, 'success');
             renderOrders();
             updateDashboard();
             document.querySelector('.modal-overlay')?.remove();
@@ -3753,7 +4029,7 @@ async function setupAIChat() {
                     });
                 }
             }
-            showToast('✅ Payment marked as paid!', 'success');
+            showToast(' Payment marked as paid!', 'success');
             renderPayments();
             updateDashboard();
         }
@@ -3784,7 +4060,7 @@ async function setupAIChat() {
                 if (error) throw error;
                 currentBusiness.name = name;
                 currentBusiness.type = type || 'Retail';
-                showToast('✅ Business info updated!', 'success');
+                showToast(' Business info updated!', 'success');
             } catch (e) {
                 showToast('❌ ' + e.message, 'error');
             }
@@ -3800,7 +4076,7 @@ async function setupAIChat() {
                         .delete()
                         .eq('business_id', currentBusiness.id);
                 }
-                showToast('✅ All data cleared!', 'success');
+                showToast(' All data cleared!', 'success');
                 refreshPage(currentPage);
                 updateDashboard();
             } catch (e) {
@@ -3891,7 +4167,7 @@ function initSidebar() {
                 navigateTo('landing');
                 // Show a toast about missing keys
                 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-                    showToast('⚠️ Please set SUPABASE_URL and SUPABASE_ANON_KEY in the script.', 'warning');
+                    showToast('Please set SUPABASE_URL and SUPABASE_ANON_KEY in the script.', 'warning');
                 }
             }
 
@@ -3935,12 +4211,11 @@ function initSidebar() {
         window.markPaymentPaid = markPaymentPaid;
         window.viewInvoice = viewInvoice;
         window.printInvoice = printInvoice;
-        window.saveSettings = saveSettings;
         window.updateBusinessInfo = updateBusinessInfo;
         window.clearAllData = clearAllData;
 
-        console.log('🚀 WhatsApp Business OS loaded.');
-        console.log('🔑 Supabase credentials:', SUPABASE_URL ? 'Set' : 'Missing');
+        
+        console.log('Credentials:', SUPABASE_URL ? 'Set' : 'Missing');
     </script>
 
 </body>
