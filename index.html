@@ -519,7 +519,7 @@
               Talk to your business. Ask about profit, stock, expenses, and
               more.
             </p>
-            <div class="chat-container" style="margin-top: 16px">
+            <div class="chat-container">
               <div class="chat-header">
                 <div class="avatar"><i class="fas fa-robot"></i></div>
                 <div class="info">
@@ -528,29 +528,31 @@
                 </div>
               </div>
               <div class="chat-messages" id="ai-chat-messages"></div>
-              <div class="quick-chips">
-                <span class="chip" data-msg="Who owes me money?"
-                  >💰 Pending</span
-                >
-                <span class="chip" data-msg="What is my profit this month?"
-                  >📊 Profit</span
-                >
-                <span class="chip" data-msg="How many blue shirts are left?"
-                  >📦 Stock</span
-                >
-                <span class="chip" data-msg="Show my best selling products."
-                  >🏆 Best Sellers</span
-                >
-              </div>
-              <div class="chat-input">
-                <input
-                  type="text"
-                  id="ai-chat-input"
-                  placeholder="Type your question..."
-                />
-                <button class="btn" id="ai-chat-send">
-                  <i class="fas fa-paper-plane"></i>
-                </button>
+              <div class="chat-input-area">
+                <div class="quick-chips">
+                  <span class="chip" data-msg="Who owes me money?"
+                    >💰 Pending</span
+                  >
+                  <span class="chip" data-msg="What is my profit this month?"
+                    >📊 Profit</span
+                  >
+                  <span class="chip" data-msg="How many blue shirts are left?"
+                    >📦 Stock</span
+                  >
+                  <span class="chip" data-msg="Show my best selling products."
+                    >🏆 Best Sellers</span
+                  >
+                </div>
+                <div class="chat-input">
+                  <input
+                    type="text"
+                    id="ai-chat-input"
+                    placeholder="Type your question..."
+                  />
+                  <button class="btn" id="ai-chat-send">
+                    <i class="fas fa-paper-plane"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -601,7 +603,11 @@
                 />
               </div>
             </div>
-            <button id="update_info_btn" class="btn btn-primary" onclick="updateBusinessInfo()">
+            <button
+              id="update_info_btn"
+              class="btn btn-primary"
+              onclick="updateBusinessInfo()"
+            >
               <i class="fas fa-save"></i> Update Business
             </button>
             <hr style="margin: 20px 0; border-color: var(--gray-100)" />
