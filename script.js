@@ -1142,7 +1142,7 @@ async function viewInvoice(id) {
 
                         <div class="invoice-brand">
                             <div class="invoice-brand-icon">
-                                <i class="fab fa-whatsapp"></i>
+                                <h2>${escapeHtml(businessName).charAt(0).toUpperCase()}</h2>
                             </div>
 
                             <div>
