@@ -357,11 +357,34 @@ async function updateProduct(id, updates) {
   return data;
 }
 async function deleteProduct(id) {
-  const client = getClient();
-  const { error } = await client.from("products").delete().eq("id", id);
-  if (error) throw error;
-}
+    try {
+        console.log("Deleting product:", id);
 
+        const client = getClient();
+
+        const { error } = await client
+            .from("products")
+            .delete()
+            .eq("id", id);
+
+        if (error) {
+            console.error("Delete product error:", error);
+            throw error;
+        }
+
+        showToast("Product deleted successfully", "success");
+
+        // Refresh inventory table
+        await renderInventory();
+
+        // Refresh dashboard stats if needed
+        await updateDashboard();
+
+    } catch (e) {
+        console.error("Failed to delete product:", e);
+        showToast("Failed to delete product: " + e.message, "error");
+    }
+}
 // ---- Customers ----
 async function getCustomers() {
   const client = getClient();
@@ -798,7 +821,7 @@ async function renderInventory() {
       return;
     }
     let html = `<div class="table-wrap"><table>
-                    <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Cost</th><th>Stock</th><th>Min</th><th>Status</th></tr></thead><tbody>`;
+                    <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Cost</th><th>Stock</th><th>Min</th><th>Status</th><th>Action</th></tr></thead><tbody>`;
     products.forEach((p) => {
       const stock = p.stock || 0;
       const min = p.minimum_stock || 0;
@@ -818,6 +841,13 @@ async function renderInventory() {
                         <td><strong>${stock}</strong></td>
                         <td>${min}</td>
                         <td><span class="badge ${badge}">${status}</span></td>
+                        <td>
+                          <button
+                              class="btn btn-danger btn-xs"
+                              onclick="deleteProduct('${p.id}')">
+                              <i class="fas fa-trash"></i>
+                          </button>
+                        </td>
                       </tr>`;
     });
     html += `</tbody></table></div>`;
