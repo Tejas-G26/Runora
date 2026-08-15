@@ -2583,6 +2583,8 @@ function loadSettings() {
 }
 
 async function updateBusinessInfo() {
+  const Update_btn = document.getElementById('update_info_btn');
+  Update_btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i>`
   const name = document.getElementById("settings-business-name").value.trim();
   const contact = document
     .getElementById("settings-contact-number")
@@ -2609,6 +2611,7 @@ async function updateBusinessInfo() {
   } catch (e) {
     showToast("❌ " + e.message, "error");
   }
+  Update_btn.innerHTML = `Update Business`
 }
 
 async function clearAllData() {
