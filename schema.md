@@ -68,7 +68,7 @@ CREATE TABLE invoices (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   business_id UUID REFERENCES businesses(id) ON DELETE CASCADE NOT NULL,
   order_id UUID REFERENCES orders(id),
-  invoice_number TEXT UNIQUE,
+  invoice_number TEXT,
   subtotal NUMERIC DEFAULT 0,
   tax NUMERIC DEFAULT 0,
   total NUMERIC DEFAULT 0,
